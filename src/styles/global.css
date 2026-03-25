@@ -1,0 +1,82 @@
+/* ===== GLOBAL STYLES — Proxel-style design ===== */
+
+:root {
+  --bg-main: #eef0f6;
+  --bg-sidebar: #ffffff;
+  --bg-card: #ffffff;
+  --bg-header: #ffffff;
+
+  --text-primary: #1a1d2e;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --text-light: #d1d5db;
+
+  --badge-medium-bg: #fef3e2;
+  --badge-medium-color: #d97706;
+  --badge-low-bg: #fde8e8;
+  --badge-low-color: #e05252;
+  --badge-high-bg: #e8f4fd;
+  --badge-high-color: #3b82f6;
+  --badge-p1-bg: #fde8e8;
+  --badge-p1-color: #e05252;
+  --badge-p2-bg: #fef3e2;
+  --badge-p2-color: #d97706;
+  --badge-p3-bg: #edfaf3;
+  --badge-p3-color: #16a34a;
+
+  --accent-blue: #4f7ef8;
+  --accent-blue-light: #eef2ff;
+  --accent-red: #ef4444;
+  --accent-red-light: #fef2f2;
+  --accent-green: #10b981;
+  --accent-green-light: #ecfdf5;
+  --accent-orange: #f59e0b;
+  --accent-orange-light: #fffbeb;
+  --accent-purple: #8b5cf6;
+  --accent-purple-light: #f5f3ff;
+
+  --border: #e8eaef;
+  --border-light: #f0f2f7;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.1);
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Inter', sans-serif;
+  --font-body: 'Inter', sans-serif;
+
+  --sidebar-width: 230px;
+  --header-height: 60px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg-main);
+  color: var(--text-primary);
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; background: none; font-family: var(--font); }
+input, select, textarea { font-family: var(--font); }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 99px; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.animate-fade { animation: fadeIn 0.2s ease both; }

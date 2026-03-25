@@ -1,0 +1,276 @@
+/* LoginPage — Combined sign in / sign up, light theme matching rest of app */
+.page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--bg-main);
+}
+
+/* ── LEFT PANEL — dark, branded ── */
+.left {
+  background: #1a1d2e;
+  display: flex;
+  flex-direction: column;
+  padding: 40px 44px;
+  gap: 24px;
+  overflow-y: auto;
+}
+
+.logoWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.logoBox {
+  width: 32px; height: 32px;
+  background: var(--accent-blue);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 16px; font-weight: 800; font-style: italic;
+}
+.logoName {
+  font-size: 18px; font-weight: 700; color: #fff; letter-spacing: -0.3px;
+}
+
+.heroText h1 {
+  font-size: 30px; font-weight: 700; color: #fff;
+  line-height: 1.25; letter-spacing: -0.5px; margin-bottom: 10px;
+}
+.heroText p {
+  font-size: 13.5px; color: rgba(255,255,255,0.5); line-height: 1.65;
+}
+
+/* Feature list */
+.featureList { display: flex; flex-direction: column; gap: 8px; }
+.featureItem {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: rgba(255,255,255,0.65);
+}
+.featureIcon {
+  width: 26px; height: 26px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; flex-shrink: 0;
+}
+
+/* Role list — on left panel */
+.roleList {
+  display: flex; flex-direction: column; gap: 7px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.roleListItem {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255,255,255,0.07);
+  transition: all 0.15s;
+}
+.roleListItemActive {
+  border-color: var(--accent-blue);
+  background: rgba(79,126,248,0.1);
+}
+.roleListIcon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.roleListLabel {
+  font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,0.85); margin-bottom: 2px;
+}
+.roleListDesc { font-size: 11.5px; color: rgba(255,255,255,0.4); line-height: 1.4; }
+
+/* ── RIGHT PANEL — white, clean ── */
+.right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+}
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  width: 420px;
+  max-width: 420px;
+  min-width: 420px;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  overflow: hidden;
+}
+
+/* Tab row */
+.tabRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid var(--border);
+}
+.tabBtn {
+  padding: 14px 12px;
+  font-size: 13.5px; font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-main);
+  border-right: 1px solid var(--border);
+  transition: all 0.15s;
+}
+.tabBtn:last-child { border-right: none; }
+.tabBtn:hover:not(.tabActive) { color: var(--text-primary); background: #f8f9fc; }
+.tabActive {
+  background: #fff;
+  color: var(--accent-blue);
+  border-bottom: 2px solid var(--accent-blue);
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Form body */
+.formBody { padding: 24px 26px 26px; }
+
+.cardHeader { margin-bottom: 18px; }
+.cardHeader h2 {
+  font-size: 20px; font-weight: 700; color: var(--text-primary);
+  margin-bottom: 4px; letter-spacing: -0.3px;
+}
+.cardHeader p { font-size: 13px; color: var(--text-muted); }
+
+/* Demo quick-fill */
+.demoRow {
+  display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap;
+  background: var(--bg-main);
+  border-radius: 8px; padding: 7px 10px;
+  margin-bottom: 16px;
+}
+.demoLabel { font-size: 11.5px; color: var(--text-muted); font-weight: 500; flex-shrink: 0; }
+.demoBtn {
+  font-size: 11.5px; padding: 3px 10px;
+  background: #fff; border: 1px solid var(--border);
+  border-radius: 20px; color: var(--accent-blue); font-weight: 600;
+  transition: all 0.12s;
+}
+.demoBtn:hover { background: var(--accent-blue); color: #fff; border-color: var(--accent-blue); }
+
+/* Fields */
+.field {
+  display: flex; flex-direction: column; gap: 5px;
+  margin-bottom: 13px;
+}
+.field label, .fieldLabel {
+  font-size: 12px; font-weight: 600; color: var(--text-secondary);
+}
+.fieldLabel { margin-bottom: 7px; }
+.field input {
+  padding: 9px 12px;
+  border: 1.5px solid var(--border); border-radius: 8px;
+  font-size: 13.5px; background: var(--bg-main); color: var(--text-primary);
+  outline: none; transition: all 0.12s; font-family: var(--font);
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+.field input:focus { border-color: var(--accent-blue); background: #fff; }
+.fieldHint { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+.twoCol {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+
+/* Role cards — compact horizontal in register form */
+.roleCards {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 7px; margin-bottom: 16px;
+}
+.roleCard {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding: 10px 6px;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--bg-main);
+  cursor: pointer; transition: all 0.15s;
+  position: relative;
+}
+.roleCard:hover { border-color: var(--accent-blue); background: var(--accent-blue-light); }
+.roleCardActive {
+  border-color: var(--accent-blue);
+  background: var(--accent-blue-light);
+}
+.roleCardIcon  { font-size: 20px; }
+.roleCardLabel { font-size: 11.5px; font-weight: 700; color: var(--text-primary); text-align: center; }
+.roleCheck {
+  position: absolute; top: 4px; right: 6px;
+  font-size: 10px; font-weight: 800; color: var(--accent-blue);
+}
+
+/* Password strength */
+.strength {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 12px; margin-top: -6px;
+}
+.strengthTrack {
+  flex: 1; height: 4px; background: var(--bg-main); border-radius: 99px; overflow: hidden;
+}
+.strengthFill { height: 100%; border-radius: 99px; transition: width 0.3s, background 0.3s; }
+.strengthLabel { font-size: 11px; font-weight: 600; white-space: nowrap; }
+
+/* Error */
+.errorBox {
+  background: var(--accent-red-light); color: var(--accent-red);
+  padding: 9px 12px; border-radius: 8px; font-size: 12.5px;
+  margin-bottom: 12px; border: 1px solid rgba(239,68,68,0.2);
+}
+
+/* Primary button */
+.primaryBtn {
+  width: 100%; padding: 11px;
+  border-radius: 8px; background: var(--accent-blue); color: #fff;
+  font-size: 13.5px; font-weight: 600; font-family: var(--font);
+  transition: all 0.15s;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  min-height: 42px; margin-bottom: 14px;
+}
+.primaryBtn:hover:not(:disabled) {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(79,126,248,0.3);
+}
+.primaryBtn:disabled { opacity: 0.65; cursor: not-allowed; }
+
+.spinner {
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.35); border-top-color: #fff;
+  border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block;
+}
+
+/* Switch hint */
+.switchHint {
+  font-size: 12.5px; color: var(--text-muted); text-align: center;
+}
+.switchLink {
+  color: var(--accent-blue); font-weight: 600; font-size: 12.5px;
+  transition: opacity 0.12s;
+}
+.switchLink:hover { opacity: 0.75; text-decoration: underline; }
+
+/* Success state */
+.successState {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 10px; padding: 32px 0; text-align: center;
+}
+.successIcon { font-size: 40px; }
+.successState h3 { font-size: 18px; font-weight: 700; color: var(--text-primary); }
+.successState p  { font-size: 13.5px; color: var(--text-muted); }
+
+@media (max-width: 768px) {
+  .page { grid-template-columns: 1fr; }
+  .left { display: none; }
+}
+
+/* Prevent card expanding on long passwords */
+.twoCol .field { min-width: 0; overflow: hidden; }
+.twoCol { overflow: hidden; }
+.formBody { overflow: hidden; }
+.field input { overflow: hidden; text-overflow: ellipsis; }
+.strengthTrack { max-width: 100%; }
