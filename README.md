@@ -102,10 +102,3 @@ src/
 
 ---
 
-## 📝 Notes for Interviews
-
-- **CSS Modules** are used instead of Tailwind — each component owns its styles, no conflicts
-- **AuthContext** uses React Context API + localStorage for persistent login
-- **Axios proxy** in `vite.config.js` forwards `/api/*` requests to Spring Boot (avoids CORS in dev)
-- **Drag & Drop** uses `@dnd-kit` — `useDraggable` and `useDroppable` hooks on cards and columns
-- The **Kanban board** does optimistic UI updates — it updates the screen immediately, then saves to backend, and rolls back if the save fails
