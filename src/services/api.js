@@ -1,8 +1,13 @@
 // src/services/api.js
 import axios from 'axios';
 
-const api = axios.create({ baseURL: 'http://localhost:8084/api', headers: { 'Content-Type': 'application/json' } });
-
+const api = axios.create({
+  // This looks for the secret injected by GitHub Actions
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8084/api', 
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 // ── AUTH ──────────────────────────────────────────────────────────────
 export const loginUser      = (userName, password)       => api.post('/users/login', { userName, password });
 export const registerUser   = (userName, password, role) => api.post('/users/register', { userName, password, role });
