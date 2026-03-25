@@ -1,15 +1,11 @@
-name: Deploy Frontend → Azure Static Web Apps
+name: Deploy Frontend → Azure App Service
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches: [ main ]
 
 jobs:
-  build_and_deploy:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,22 +23,9 @@ jobs:
           npm ci
           npm run build
 
-      - name: Deploy
-        uses: Azure/static-web-apps-deploy@v1
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/"         # Root of this repo
-          output_location: "dist"   # Folder where Vite builds
-          skip_app_build: true      # We already built it above
-
-  close_pull_request:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Close PR
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          action: "close"
+          app-name: 'bugtrackr-frontend-app' # Use the name you gave your new App Service
+          publish-profile: ${{ secrets.AZURE_WEBAPP_FRONTEND_PUBLISH_PROFILE }}
+          package: ./dist
