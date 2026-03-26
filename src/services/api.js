@@ -1,9 +1,11 @@
 // src/services/api.js
 import axios from 'axios';
 
+export const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8084/api';
+
 const api = axios.create({
   // This looks for the secret injected by GitHub Actions
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8084/api', 
+  baseURL: BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
