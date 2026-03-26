@@ -332,68 +332,74 @@ export default function BugDetailModal({ bug, onClose, onUpdated }) {
               )}
             </div>
           )}
-{/* ══ ATTACHMENTS ══ */}
-{tab === 'attachments' && (
-  <div className={styles.attLayout}>
-    {permissions?.canCreate && (
-      <div
-        className={`${styles.dropZone} ${dragOver ? styles.dropZoneActive : ''}`}
-        onDragOver={e => { e.preventDefault(); setDragOver(true); }}
-        onDragLeave={() => setDragOver(false)}
-        onDrop={e => { e.preventDefault(); setDragOver(false); handleFileUpload(e.dataTransfer.files[0]); }}
-        onClick={() => fileRef.current?.click()}
-      >
-        <input ref={fileRef} type="file" accept="image/*,.pdf,.txt,.log,.csv,.zip" className={styles.fileInput}
-          onChange={e => { handleFileUpload(e.target.files?.[0]); e.target.value=''; }} />
-        {uploading
-          ? <><span className={styles.tabSpinner}/> Uploading…</>
-          : <><div className={styles.dropIcon}>📎</div>
-              <div className={styles.dropText}><strong>Click to upload</strong> or drag & drop</div>
-              <div className={styles.dropHint}>PNG, JPG, PDF, TXT, LOG, CSV, ZIP — Max 10MB</div></>
-        }
-      </div>
-    )}
-
-    {attLoad ? <Loader text="Loading files…" /> :
-      attachments.length === 0 ? <Empty icon="📎" text={`No files attached.${permissions?.canCreate ? ' Upload a screenshot or log above.' : ''}`} /> :
-      <div className={styles.attList}>
-        {attachments.map(a => (
-          <div key={a.id} className={styles.attCard}>
-            {isImage(a.fileType)
-              ? <a href={`${BASE_URL}${a.downloadUrl}`} target="_blank" rel="noreferrer" className={styles.attThumbWrap}>
-                  {/* Fixed: Uses BASE_URL imported from api.js */}
-                  <img src={`${BASE_URL}${a.downloadUrl}`} alt={a.originalName} className={styles.attThumb} />
-                </a>
-              : <div className={styles.attIconBox}>
-                  <span className={styles.attIcon}>
-                    {a.fileType?.includes('pdf') ? '📄' : a.fileType?.includes('zip') ? '🗜' : a.originalName?.endsWith('.log') ? '📝' : '📎'}
-                  </span>
-                </div>
-            }
-            <div className={styles.attInfo}>
-              {/* Fixed: Download link now points to Azure via BASE_URL */}
-              <a href={`${BASE_URL}${a.downloadUrl}`} target="_blank" rel="noreferrer" className={styles.attName}>
-                {a.originalName}
-              </a>
-              <div className={styles.attMeta}>{fmtBytes(a.fileSize)} · {a.uploadedBy} · {a.uploadedAt ? new Date(a.uploadedAt).toLocaleDateString() : ''}</div>
-            </div>
-            <div className={styles.attBtns}>
-              {/* Fixed: View Icon link */}
-              <a href={`${BASE_URL}${a.downloadUrl}`} target="_blank" rel="noreferrer" className={styles.attView} title="View">
-                <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-              </a>
+          {/* ══ ATTACHMENTS ══ */}
+          {tab === 'attachments' && (
+            <div className={styles.attLayout}>
               {permissions?.canCreate && (
-                <button className={styles.attDel} onClick={() => handleDeleteAttachment(a.id)} title="Delete">
-                  <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-                </button>
+                <div
+                  className={`${styles.dropZone} ${dragOver ? styles.dropZoneActive : ''}`}
+                  onDragOver={e => { e.preventDefault(); setDragOver(true); }}
+                  onDragLeave={() => setDragOver(false)}
+                  onDrop={e => { e.preventDefault(); setDragOver(false); handleFileUpload(e.dataTransfer.files[0]); }}
+                  onClick={() => fileRef.current?.click()}
+                >
+                  <input ref={fileRef} type="file" accept="image/*,.pdf,.txt,.log,.csv,.zip" className={styles.fileInput}
+                    onChange={e => { handleFileUpload(e.target.files?.[0]); e.target.value=''; }} />
+                  {uploading
+                    ? <><span className={styles.tabSpinner}/> Uploading…</>
+                    : <><div className={styles.dropIcon}>📎</div>
+                        <div className={styles.dropText}><strong>Click to upload</strong> or drag & drop</div>
+                        <div className={styles.dropHint}>PNG, JPG, PDF, TXT, LOG, CSV, ZIP — Max 10MB</div></>
+                  }
+                </div>
               )}
+          
+              {attLoad ? <Loader text="Loading files…" /> :
+                attachments.length === 0 ? <Empty icon="📎" text={`No files attached.${permissions?.canCreate ? ' Upload a screenshot or log above.' : ''}`} /> :
+                <div className={styles.attList}>
+                  {attachments.map(a => {
+                    // FIX: Strip '/api' from the start of downloadUrl if it exists 
+                    // because BASE_URL already contains it.
+                    const cleanPath = a.downloadUrl?.startsWith('/api') 
+                      ? a.downloadUrl.replace('/api', '') 
+                      : a.downloadUrl;
+                    const fullUrl = `${BASE_URL}${cleanPath}`;
+          
+                    return (
+                      <div key={a.id} className={styles.attCard}>
+                        {isImage(a.fileType)
+                          ? <a href={fullUrl} target="_blank" rel="noreferrer" className={styles.attThumbWrap}>
+                              <img src={fullUrl} alt={a.originalName} className={styles.attThumb} />
+                            </a>
+                          : <div className={styles.attIconBox}>
+                              <span className={styles.attIcon}>
+                                {a.fileType?.includes('pdf') ? '📄' : a.fileType?.includes('zip') ? '🗜' : a.originalName?.endsWith('.log') ? '📝' : '📎'}
+                              </span>
+                            </div>
+                        }
+                        <div className={styles.attInfo}>
+                          <a href={fullUrl} target="_blank" rel="noreferrer" className={styles.attName}>
+                            {a.originalName}
+                          </a>
+                          <div className={styles.attMeta}>{fmtBytes(a.fileSize)} · {a.uploadedBy} · {a.uploadedAt ? new Date(a.uploadedAt).toLocaleDateString() : ''}</div>
+                        </div>
+                        <div className={styles.attBtns}>
+                          <a href={fullUrl} target="_blank" rel="noreferrer" className={styles.attView} title="View">
+                            <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                          </a>
+                          {permissions?.canCreate && (
+                            <button className={styles.attDel} onClick={() => handleDeleteAttachment(a.id)} title="Delete">
+                              <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              }
             </div>
-          </div>
-        ))}
-      </div>
-    }
-  </div>
-)}
+          )}
 
           {/* ══ HISTORY ══ */}
           {tab === 'history' && (
