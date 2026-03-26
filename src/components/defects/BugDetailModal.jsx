@@ -17,6 +17,7 @@ const ACT_ICON  = { STATUS_CHANGED:'🔄', ASSIGNED:'📌', BUG_CREATED:'🐛', 
 const ACT_CLR   = { STATUS_CHANGED:'#f59e0b', ASSIGNED:'#3b82f6', BUG_CREATED:'#6b7280', RESOLVED:'#10b981', COMMENT_ADDED:'#8b5cf6', ATTACHMENT_ADDED:'#ea580c' };
 
 export default function BugDetailModal({ bug, onClose, onUpdated }) {
+  const BACKEND_URL = "https://defect-tracker-backend-b2dvbhgba7fzhggq.centralindia-01.azurewebsites.net";
   const { user, permissions } = useAuth();
   const { toast } = useToast();
   const [tab, setTab] = useState('details');
@@ -332,7 +333,7 @@ export default function BugDetailModal({ bug, onClose, onUpdated }) {
             </div>
           )}
 
-          {/* ══ ATTACHMENTS ══ */}
+         {/* ══ ATTACHMENTS ══ */}
           {tab === 'attachments' && (
             <div className={styles.attLayout}>
               {permissions?.canCreate && (
@@ -353,39 +354,44 @@ export default function BugDetailModal({ bug, onClose, onUpdated }) {
                   }
                 </div>
               )}
-
+          
               {attLoad ? <Loader text="Loading files…" /> :
-               attachments.length === 0 ? <Empty icon="📎" text={`No files attached.${permissions?.canCreate ? ' Upload a screenshot or log above.' : ''}`} /> :
-               <div className={styles.attList}>
-                 {attachments.map(a => (
-                   <div key={a.id} className={styles.attCard}>
-                     {isImage(a.fileType)
-                       ? <a href={a.downloadUrl} target="_blank" rel="noreferrer" className={styles.attThumbWrap}>
-                           <img src={a.downloadUrl} alt={a.originalName} className={styles.attThumb} />
-                         </a>
-                       : <div className={styles.attIconBox}>
-                           <span className={styles.attIcon}>
-                             {a.fileType?.includes('pdf') ? '📄' : a.fileType?.includes('zip') ? '🗜' : a.originalName?.endsWith('.log') ? '📝' : '📎'}
-                           </span>
-                         </div>
-                     }
-                     <div className={styles.attInfo}>
-                       <a href={a.downloadUrl} target="_blank" rel="noreferrer" className={styles.attName}>{a.originalName}</a>
-                       <div className={styles.attMeta}>{fmtBytes(a.fileSize)} · {a.uploadedBy} · {a.uploadedAt ? new Date(a.uploadedAt).toLocaleDateString() : ''}</div>
-                     </div>
-                     <div className={styles.attBtns}>
-                       <a href={a.downloadUrl} target="_blank" rel="noreferrer" className={styles.attView} title="View">
-                         <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                       </a>
-                       {permissions?.canCreate && (
-                         <button className={styles.attDel} onClick={() => handleDeleteAttachment(a.id)} title="Delete">
-                           <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
-                         </button>
-                       )}
-                     </div>
-                   </div>
-                 ))}
-               </div>
+                attachments.length === 0 ? <Empty icon="📎" text={`No files attached.${permissions?.canCreate ? ' Upload a screenshot or log above.' : ''}`} /> :
+                <div className={styles.attList}>
+                  {attachments.map(a => (
+                    <div key={a.id} className={styles.attCard}>
+                      {isImage(a.fileType)
+                        ? <a href={`${BACKEND_URL}${a.downloadUrl}`} target="_blank" rel="noreferrer" className={styles.attThumbWrap}>
+                            {/* Fixed Image Source */}
+                            <img src={`${BACKEND_URL}${a.downloadUrl}`} alt={a.originalName} className={styles.attThumb} />
+                          </a>
+                        : <div className={styles.attIconBox}>
+                            <span className={styles.attIcon}>
+                              {a.fileType?.includes('pdf') ? '📄' : a.fileType?.includes('zip') ? '🗜' : a.originalName?.endsWith('.log') ? '📝' : '📎'}
+                            </span>
+                          </div>
+                      }
+                      <div className={styles.attInfo}>
+                        {/* Fixed File Name Link */}
+                        <a href={`${BACKEND_URL}${a.downloadUrl}`} target="_blank" rel="noreferrer" className={styles.attName}>
+                          {a.originalName}
+                        </a>
+                        <div className={styles.attMeta}>{fmtBytes(a.fileSize)} · {a.uploadedBy} · {a.uploadedAt ? new Date(a.uploadedAt).toLocaleDateString() : ''}</div>
+                      </div>
+                      <div className={styles.attBtns}>
+                        {/* Fixed View Icon Link */}
+                        <a href={`${BACKEND_URL}${a.downloadUrl}`} target="_blank" rel="noreferrer" className={styles.attView} title="View">
+                          <svg width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                        {permissions?.canCreate && (
+                          <button className={styles.attDel} onClick={() => handleDeleteAttachment(a.id)} title="Delete">
+                            <svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               }
             </div>
           )}
