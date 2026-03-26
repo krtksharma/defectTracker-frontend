@@ -29,14 +29,22 @@ export const deleteComment = (commentId)                             => api.dele
 
 // ── ATTACHMENTS ───────────────────────────────────────────────────────
 export const getAttachments = (defectId) => api.get(`/defects/${defectId}/attachments`);
+
 export const uploadAttachment = (defectId, file, uploadedBy) => {
   const form = new FormData();
   form.append('file', file);
   form.append('uploadedBy', uploadedBy);
-  return axios.post(`/api/defects/${defectId}/attachments`, form, {
-    headers: { 'Content-Type': 'multipart/form-data', 'Authorization': api.defaults.headers.common['Authorization'] },
+
+  // FIX: Use 'api.post' instead of 'axios.post'
+  // FIX: Remove the leading '/api' because your baseURL already includes it
+  return api.post(`/defects/${defectId}/attachments`, form, {
+    headers: { 
+      'Content-Type': 'multipart/form-data' 
+      // Note: 'api' instance handles your Authorization headers automatically if configured
+    },
   });
 };
+
 export const deleteAttachment = (id) => api.delete(`/attachments/${id}`);
 
 // ── AUDIT / HISTORY ───────────────────────────────────────────────────
