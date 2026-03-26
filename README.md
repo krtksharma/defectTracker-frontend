@@ -3,7 +3,7 @@
 A modern defect management dashboard built with React + Vite.  
 Connects to your Spring Boot backend at `http://localhost:8080`.
 
-For live demo use azure link : https://bugtrackr-frontend-app-ftc4cffyatgth9gd.centralindia-01.azurewebsites.net/login
+For live demo use azure link : https://defect-tracker-frontend.vercel.app/
 
 ---
 
