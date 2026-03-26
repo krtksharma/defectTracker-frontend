@@ -189,6 +189,15 @@
 
 .attDel { color: #94a3b8; background: transparent; }
 .attDel:hover { background: #fee2e2; color: #ef4444; }
+.fileInput {
+  /* This ensures it's hidden but doesn't break functionality */
+  position: absolute;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  display: none; /* Keep this, but the above are backups */
+}
 
 @media (max-width: 600px) {
   .attList { grid-template-columns: 1fr; }
