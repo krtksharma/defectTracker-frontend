@@ -113,32 +113,86 @@
 .sendBtn:hover:not(:disabled) { background:#3d6ae8; }
 .sendBtn:disabled { opacity:0.5; cursor:not-allowed; }
 
-/* ── ATTACHMENTS ── */
-.attLayout { padding:14px 18px; display:flex; flex-direction:column; gap:12px; }
-.dropZone { border:2px dashed var(--border); border-radius:12px; padding:24px; text-align:center; cursor:pointer; transition:all 0.15s; background:var(--bg-main); display:flex; flex-direction:column; align-items:center; gap:6px; }
-.dropZone:hover,.dropZoneActive { border-color:var(--accent-blue); background:var(--accent-blue-light); }
-.fileInput { display:none; }
-.dropIcon { font-size:26px; }
-.dropText { font-size:13.5px; color:var(--text-secondary); }
-.dropText strong { color:var(--accent-blue); }
-.dropHint { font-size:11.5px; color:var(--text-muted); }
-.attList { display:flex; flex-direction:column; gap:8px; }
-.attCard { display:flex; align-items:center; gap:11px; background:var(--bg-main); border-radius:10px; padding:9px 12px; border:1px solid var(--border); transition:all 0.12s; }
-.attCard:hover { border-color:var(--accent-blue); background:#fff; }
-.attThumbWrap { width:54px; height:44px; flex-shrink:0; border-radius:7px; overflow:hidden; }
-.attThumb { width:100%; height:100%; object-fit:cover; }
-.attIconBox { width:54px; height:44px; flex-shrink:0; background:#fff; border-radius:7px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; }
-.attIcon { font-size:22px; }
-.attInfo { flex:1; min-width:0; }
-.attName { font-size:13px; font-weight:600; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; display:block; }
-.attName:hover { color:var(--accent-blue); text-decoration:underline; }
-.attMeta { font-size:11.5px; color:var(--text-muted); margin-top:2px; }
-.attBtns { display:flex; gap:5px; flex-shrink:0; }
-.attView,.attDel { width:28px; height:28px; border-radius:7px; display:flex; align-items:center; justify-content:center; transition:all 0.12s; }
-.attView { color:var(--accent-blue); background:var(--accent-blue-light); }
-.attView:hover { background:var(--accent-blue); color:#fff; }
-.attDel { color:var(--text-muted); background:var(--bg-main); border:1px solid var(--border); }
-.attDel:hover { background:var(--accent-red-light); color:var(--accent-red); border-color:transparent; }
+/* ── ATTACHMENTS (Jira Style) ── */
+.attLayout { padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+
+.dropZone { 
+  border: 2px dashed #e2e8f0; border-radius: 12px; padding: 32px;
+  text-align: center; cursor: pointer; transition: all 0.2s;
+  background: #f8fafc; display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.dropZone:hover { border-color: var(--accent-blue); background: #f1f5f9; }
+.dropZoneActive { border-color: var(--accent-blue); background: var(--accent-blue-light); }
+
+.dropIcon { font-size: 32px; margin-bottom: 4px; opacity: 0.7; }
+.dropText { font-size: 14px; color: #334155; font-weight: 500; }
+.dropText strong { color: var(--accent-blue); }
+.dropHint { font-size: 12px; color: #64748b; }
+
+/* Grid Layout for Cards */
+.attList { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+  gap: 12px; 
+}
+
+.attCard { 
+  display: flex; align-items: center; gap: 12px; 
+  background: #fff; border-radius: 10px; padding: 10px; 
+  border: 1px solid #e2e8f0; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.attCard:hover { 
+  border-color: #cbd5e1; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transform: translateY(-1px);
+}
+
+.attThumbWrap { 
+  width: 48px; height: 48px; flex-shrink: 0; 
+  border-radius: 6px; overflow: hidden; background: #f1f5f9;
+  border: 1px solid #f1f5f9;
+}
+.attThumb { width: 100%; height: 100%; object-fit: cover; }
+
+.attIconBox { 
+  width: 48px; height: 48px; flex-shrink: 0; 
+  background: #f8fafc; border-radius: 6px; 
+  display: flex; align-items: center; justify-content: center;
+  border: 1px solid #e2e8f0;
+}
+.attIcon { font-size: 20px; }
+
+.attInfo { flex: 1; min-width: 0; }
+.attName { 
+  font-size: 13px; font-weight: 600; color: #1e293b; 
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+  display: block; margin-bottom: 2px;
+}
+.attMeta { font-size: 11px; color: #64748b; font-weight: 400; }
+
+/* Action Buttons - appear on hover */
+.attBtns { 
+  display: flex; gap: 4px; 
+  opacity: 0; transition: opacity 0.15s;
+}
+.attCard:hover .attBtns { opacity: 1; }
+
+.attView, .attDel { 
+  width: 26px; height: 26px; border-radius: 6px; 
+  display: flex; align-items: center; justify-content: center; 
+  transition: all 0.12s; border: none; cursor: pointer;
+}
+.attView { color: #64748b; background: #f1f5f9; }
+.attView:hover { background: #e2e8f0; color: #1e293b; }
+
+.attDel { color: #94a3b8; background: transparent; }
+.attDel:hover { background: #fee2e2; color: #ef4444; }
+
+@media (max-width: 600px) {
+  .attList { grid-template-columns: 1fr; }
+}
 
 /* ── HISTORY ── */
 .historyLayout { padding:14px 18px; }
